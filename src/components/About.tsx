@@ -35,7 +35,7 @@ export function About() {
           <div className="space-y-6 text-base font-normal leading-relaxed text-ink-secondary lg:col-span-3 md:text-[17px]">
             <p>
               <span className="font-semibold text-ink">
-                서비스 기획과 PM 경력 3년 이상
+                서비스 기획과 PM 경력 약 3년
               </span>
               을 쌓으며, “무엇을 만들까”보다{" "}
               <span className="font-semibold text-ink">
