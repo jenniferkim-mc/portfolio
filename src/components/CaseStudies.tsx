@@ -143,7 +143,7 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
           ) : null}
         </div>
 
-        <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 to-indigo-50/70 p-6 md:p-8 lg:border-l lg:border-t-0">
+        <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 via-white to-indigo-50/60 p-6 md:p-8 lg:border-l lg:border-t-0">
           {image ? (
             <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
               <img
@@ -153,29 +153,27 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
               />
             </div>
           ) : (
-            <div className="flex h-full min-h-[260px] flex-col justify-between rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-600">
-                  PM Focus
-                </p>
+            <div className="flex h-full min-h-[260px] flex-col justify-center">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">
+                PM Focus
+              </p>
 
-                <p className="mt-4 text-2xl font-bold leading-tight text-slate-950">
-                  문제를 화면 단위가 아니라
-                  <br />
-                  행동 흐름 단위로 재설계
-                </p>
+              <h4 className="mt-5 text-2xl font-bold leading-tight tracking-tight text-slate-950">
+                {study.pmFocus?.title ?? "프로젝트 핵심 기획 포인트"}
+              </h4>
 
-                <p className="mt-4 text-sm leading-relaxed text-slate-600">
-                  사용자가 어디서 멈추는지 정의하고, 인지 → 행동 → 전환으로
-                  이어지는 구조를 다시 잡았습니다.
-                </p>
-              </div>
+              <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-600">
+                {study.pmFocus?.description ??
+                  "문제 정의부터 구조 설계, 산출물 완성까지 PM 관점에서 핵심 흐름을 정리했습니다."}
+              </p>
 
-              <div className="mt-6 rounded-2xl bg-slate-950 p-5 text-white">
-                <p className="text-xs text-slate-400">Key Question</p>
-                <p className="mt-2 text-sm leading-relaxed text-slate-200">
-                  “무엇을 더 보여줄까?”가 아니라 “어떤 행동을 만들까?”를
-                  기준으로 설계했습니다.
+              <div className="mt-8 border-l-2 border-indigo-500 pl-5">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+                  Key Question
+                </p>
+                <p className="mt-2 text-sm font-semibold leading-relaxed text-slate-800">
+                  {study.pmFocus?.question ??
+                    "이 프로젝트에서 가장 먼저 풀어야 할 구조적 문제는 무엇인가?"}
                 </p>
               </div>
             </div>
