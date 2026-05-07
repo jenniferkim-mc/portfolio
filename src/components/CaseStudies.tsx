@@ -1,9 +1,25 @@
 import { useState } from "react";
 import type { ReactNode } from "react";
-import type { CaseStudy } from "../data/caseStudies";
+import type { CaseStudy, RichTextSegment } from "../data/caseStudies";
 
 function getTopResults(study: CaseStudy) {
   return study.result.slice(0, 3);
+}
+
+function RichText({ segments }: { segments: RichTextSegment[] }) {
+  return (
+    <>
+      {segments.map((segment, index) =>
+        segment.bold ? (
+          <span key={index} className="font-semibold text-slate-950">
+            {segment.text}
+          </span>
+        ) : (
+          <span key={index}>{segment.text}</span>
+        )
+      )}
+    </>
+  );
 }
 
 function SummaryResult({ study }: { study: CaseStudy }) {
@@ -12,7 +28,7 @@ function SummaryResult({ study }: { study: CaseStudy }) {
         {
           label: "Wireframe",
           value: "4일",
-          detail: "Cursor 기반 화면 구현·검증",
+          detail: "Cursor 기반 화면 구현",
         },
         {
           label: "Storyboard",
@@ -22,26 +38,28 @@ function SummaryResult({ study }: { study: CaseStudy }) {
         {
           label: "Lead Time",
           value: "약 80%+",
-          detail: "전체 기획 리드타임 단축",
+          detail: "기획 리드타임 단축",
         },
       ]
     : getTopResults(study);
 
   return (
-    <div className="grid gap-3 md:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-3">
       {kpis.map((r) => (
         <div
           key={r.label}
-          className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
+          className="rounded-3xl border border-slate-200 bg-white px-6 py-5 shadow-sm"
         >
-          <p className="text-xs font-semibold text-slate-500">{r.label}</p>
+          <p className="text-xs font-semibold tracking-wide text-slate-500">
+            {r.label}
+          </p>
 
-          <p className="mt-2 text-2xl font-bold tracking-tight text-indigo-600">
+          <p className="mt-3 text-3xl font-bold tracking-tight text-indigo-600 md:text-4xl">
             {r.value}
           </p>
 
           {r.detail ? (
-            <p className="mt-1 text-xs leading-relaxed text-slate-500">
+            <p className="mt-2 text-sm leading-relaxed text-slate-500">
               {r.detail}
             </p>
           ) : null}
@@ -59,35 +77,66 @@ function DetailBlock({
   children: ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
-      <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+    <div className="rounded-3xl border border-slate-200 bg-white p-6">
+      <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
         {title}
       </p>
-      <div className="mt-3 text-sm leading-relaxed text-slate-600">
+      <div className="mt-4 text-sm leading-relaxed text-slate-600 md:text-[15px]">
         {children}
       </div>
     </div>
   );
 }
 
+function InsightCard({
+  title,
+  children,
+  variant = "default",
+}: {
+  title: string;
+  children: ReactNode;
+  variant?: "default" | "accent";
+}) {
+  const cardClass =
+    variant === "accent"
+      ? "border-indigo-100 bg-indigo-50/60"
+      : "border-slate-200 bg-white";
+
+  const titleClass =
+    variant === "accent" ? "text-indigo-500" : "text-slate-400";
+
+  return (
+    <div className={`rounded-3xl border p-6 ${cardClass}`}>
+      <p
+        className={`text-xs font-bold uppercase tracking-[0.18em] ${titleClass}`}
+      >
+        {title}
+      </p>
+      <p className="mt-4 text-sm leading-relaxed text-slate-600 md:text-[15px]">
+        {children}
+      </p>
+    </div>
+  );
+}
+
 function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
   const [open, setOpen] = useState(false);
-  const image = (study as any).image as string | undefined;
+  const image = study.image;
 
   return (
     <article
       id={`case-${study.id}`}
-      className="reveal scroll-mt-28 overflow-hidden rounded-[32px] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.06)]"
+      className="reveal scroll-mt-28 overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.05)]"
     >
-      <div className="grid gap-0 lg:grid-cols-[1.08fr_0.92fr]">
+      <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="px-6 py-8 md:px-8 md:py-10">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-slate-950 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white">
+            <span className="rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white">
               Case {String(idx + 1).padStart(2, "0")}
             </span>
 
             {study.highlightResults ? (
-              <span className="rounded-full bg-indigo-600 px-2.5 py-1 text-[11px] font-bold text-white">
+              <span className="rounded-full bg-indigo-600 px-3 py-1.5 text-[11px] font-bold text-white">
                 AX Impact
               </span>
             ) : null}
@@ -95,47 +144,47 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
             {study.tags.slice(0, 4).map((t) => (
               <span
                 key={t}
-                className="rounded-full border border-indigo-100 bg-indigo-50 px-2.5 py-1 text-[11px] font-semibold text-indigo-600"
+                className="rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-[11px] font-semibold text-indigo-600"
               >
                 {t}
               </span>
             ))}
           </div>
 
-          <h3 className="mt-6 text-2xl font-bold tracking-tight text-slate-950 md:text-3xl">
+          <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-slate-950 md:text-3xl">
             {study.title}
           </h3>
 
-          <p className="mt-3 max-w-3xl text-base leading-relaxed text-slate-600">
-            {study.tagline}
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
+            <RichText segments={study.tagline} />
           </p>
 
           {study.meta ? (
-            <dl className="mt-6 grid grid-cols-2 gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-xs text-slate-500 md:text-sm">
+            <dl className="mt-7 grid grid-cols-2 gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-5 text-xs text-slate-500 md:text-sm">
               <div>
-                <dt className="font-semibold text-slate-400">기간</dt>
-                <dd className="mt-1 font-medium text-slate-700">
+                <dt className="font-bold text-slate-400">기간</dt>
+                <dd className="mt-1.5 font-semibold text-slate-800">
                   {study.meta.period}
                 </dd>
               </div>
 
               <div>
-                <dt className="font-semibold text-slate-400">기여</dt>
-                <dd className="mt-1 font-medium text-slate-700">
+                <dt className="font-bold text-slate-400">기여</dt>
+                <dd className="mt-1.5 font-semibold text-slate-800">
                   {study.meta.contribution}
                 </dd>
               </div>
 
               <div>
-                <dt className="font-semibold text-slate-400">팀</dt>
-                <dd className="mt-1 font-medium text-slate-700">
+                <dt className="font-bold text-slate-400">팀</dt>
+                <dd className="mt-1.5 font-semibold text-slate-800">
                   {study.meta.team}
                 </dd>
               </div>
 
               <div>
-                <dt className="font-semibold text-slate-400">산출</dt>
-                <dd className="mt-1 font-medium text-slate-700">
+                <dt className="font-bold text-slate-400">산출</dt>
+                <dd className="mt-1.5 font-semibold text-slate-800">
                   {study.meta.deliverable}
                 </dd>
               </div>
@@ -143,7 +192,7 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
           ) : null}
         </div>
 
-        <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 via-white to-indigo-50/60 p-6 md:p-8 lg:border-l lg:border-t-0">
+        <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 via-white to-indigo-50/50 p-6 md:p-8 lg:border-l lg:border-t-0">
           {image ? (
             <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
               <img
@@ -153,25 +202,25 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
               />
             </div>
           ) : (
-            <div className="flex h-full min-h-[260px] flex-col justify-center">
-              <p className="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">
+            <div className="flex h-full min-h-[280px] flex-col justify-center">
+              <p className="text-xs font-bold uppercase tracking-[0.24em] text-indigo-600">
                 PM Focus
               </p>
 
-              <h4 className="mt-5 text-2xl font-bold leading-tight tracking-tight text-slate-950">
+              <h4 className="mt-5 text-2xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-3xl">
                 {study.pmFocus?.title ?? "프로젝트 핵심 기획 포인트"}
               </h4>
 
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-600">
+              <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-600 md:text-[15px]">
                 {study.pmFocus?.description ??
                   "문제 정의부터 구조 설계, 산출물 완성까지 PM 관점에서 핵심 흐름을 정리했습니다."}
               </p>
 
-              <div className="mt-8 border-l-2 border-indigo-500 pl-5">
+              <div className="mt-8 rounded-3xl border border-indigo-100 bg-white/80 px-5 py-5 shadow-sm">
                 <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
                   Key Question
                 </p>
-                <p className="mt-2 text-sm font-semibold leading-relaxed text-slate-800">
+                <p className="mt-2 text-sm font-semibold leading-relaxed text-slate-900 md:text-[15px]">
                   {study.pmFocus?.question ??
                     "이 프로젝트에서 가장 먼저 풀어야 할 구조적 문제는 무엇인가?"}
                 </p>
@@ -181,42 +230,32 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
         </div>
       </div>
 
-      <div className="border-t border-slate-200 bg-slate-50 px-6 py-7 md:px-8">
+      <div className="border-t border-slate-200 bg-slate-50 px-6 py-8 md:px-8">
         <SummaryResult study={study} />
 
-        <div className="mt-6 grid gap-4 md:grid-cols-[0.9fr_1.1fr_0.9fr]">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-              Problem
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-slate-600">
-              {study.problem}
-            </p>
-          </div>
+        <div className="mt-7 grid gap-4 md:grid-cols-2">
+          <InsightCard title="Problem">
+            <RichText segments={study.problem} />
+          </InsightCard>
 
-          <div className="rounded-2xl border border-indigo-100 bg-indigo-50 p-5">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-indigo-500">
-              What I Changed
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-slate-700">
-              {study.solution}
-            </p>
-          </div>
+          <InsightCard title="What I Changed" variant="accent">
+            <RichText segments={study.solution} />
+          </InsightCard>
+        </div>
 
-          <div className="rounded-2xl bg-slate-950 p-5 text-white">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-              Takeaway
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-slate-300">
-              {study.learning}
-            </p>
-          </div>
+        <div className="mt-4 rounded-3xl border border-indigo-100 bg-white p-6 shadow-sm">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-500">
+            PM Insight
+          </p>
+          <p className="mt-4 text-sm leading-relaxed text-slate-600 md:text-[15px]">
+            <RichText segments={study.learning} />
+          </p>
         </div>
 
         <button
           type="button"
           onClick={() => setOpen((prev) => !prev)}
-          className="mt-6 inline-flex items-center rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
+          className="mt-7 inline-flex items-center rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-700 transition hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-600"
         >
           {open ? "판단 과정 접기" : "문제 정의와 검증 과정 보기"}
           <span className="ml-2">{open ? "↑" : "↓"}</span>
@@ -224,32 +263,40 @@ function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
       </div>
 
       {open ? (
-        <div className="border-t border-slate-200 bg-white px-6 py-7 md:px-8">
+        <div className="border-t border-slate-200 bg-white px-6 py-8 md:px-8">
           <div className="grid gap-4 md:grid-cols-2">
             <DetailBlock title="Why">
-              <p>{study.why}</p>
+              <p>
+                <RichText segments={study.why} />
+              </p>
             </DetailBlock>
 
             <DetailBlock title="Hypothesis">
-              <p>{study.hypothesis}</p>
+              <p>
+                <RichText segments={study.hypothesis} />
+              </p>
             </DetailBlock>
 
             <DetailBlock title="Experiment">
-              <p>{study.experiment}</p>
+              <p>
+                <RichText segments={study.experiment} />
+              </p>
             </DetailBlock>
 
             <DetailBlock title="Learning">
-              <p>{study.learning}</p>
+              <p>
+                <RichText segments={study.learning} />
+              </p>
             </DetailBlock>
           </div>
 
           {study.uxNote ? (
-            <div className="mt-4 rounded-2xl border border-slate-200 bg-white p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+            <div className="mt-4 rounded-3xl border border-slate-200 bg-white p-6">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">
                 UX Reasoning
               </p>
-              <p className="mt-3 text-sm leading-relaxed text-slate-600">
-                {study.uxNote}
+              <p className="mt-4 text-sm leading-relaxed text-slate-600 md:text-[15px]">
+                <RichText segments={study.uxNote} />
               </p>
             </div>
           ) : null}
@@ -268,17 +315,17 @@ export function CaseStudies({ items }: { items: CaseStudy[] }) {
             Case Studies
           </p>
 
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 md:text-4xl">
-            지표를 움직인 제품 개선 사례
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-950 md:text-4xl">
+            지표와 구조로 증명한 제품 개선 사례
           </h2>
 
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">
             문제 정의부터 실험, 검증까지. 사용자의 행동 변화를 만들기 위해
-            어떤 구조를 바꿨는지 중심으로 정리했습니다.
+            어떤 구조를 바꾸고, 어떤 기준으로 실행했는지 정리했습니다.
           </p>
         </div>
 
-        <div className="mt-12 flex flex-col gap-10">
+        <div className="mt-12 flex flex-col gap-12">
           {items.map((study, idx) => (
             <CaseStudyCard key={study.id} study={study} idx={idx} />
           ))}

@@ -1,6 +1,6 @@
 const snapshot = [
   { label: "Focus", value: "AI × Commerce" },
-  { label: "Experience", value: "서비스기획·PM 3년+" },
+  { label: "Experience", value: "서비스기획·PM 약 3년" },
   { label: "Current", value: "Addeep · Project Leader" },
   { label: "Language", value: "English fluent" },
 ];
@@ -19,15 +19,18 @@ export function About() {
           <h2 className="mt-4 text-3xl font-bold tracking-tight text-ink md:text-4xl md:leading-tight">
             구조를 먼저 보는 기획자,
             <br />
-            <span className="text-accent">지표로 말하는 PM</span>
+            <span className="text-accent">AI를 실행력으로 연결하는 PM</span>
           </h2>
           <p className="mt-6 text-lg font-normal leading-relaxed text-ink-secondary md:text-xl">
-            화면부터 그리지 않고{" "}
+            단순히 화면을 설계하는 것보다, 서비스가 실제로{" "}
             <span className="font-semibold text-ink">
-              상품·주문·정산·광고가 만나는 지점
+              어떻게 운영되고 연결되는지
             </span>
-            부터 봅니다. 데이터로 병목을 고정하고, 실행 가능한 범위로 쪼갠 뒤,
-            이해관계자가 같은 그림을 보도록 설득합니다.
+            를 먼저 고민합니다. 상품·주문·정산·광고·운영 등 다양한 흐름 속에서{" "}
+            <span className="font-semibold text-ink">
+              사용자 경험과 비즈니스 구조
+            </span>
+            가 자연스럽게 이어질 수 있도록 설계합니다.
           </p>
         </div>
 
@@ -35,44 +38,57 @@ export function About() {
           <div className="space-y-6 text-base font-normal leading-relaxed text-ink-secondary lg:col-span-3 md:text-[17px]">
             <p>
               <span className="font-semibold text-ink">
-                서비스 기획과 PM 경력 약 3년
+                약 3년간 서비스 기획 및 PM 경험
               </span>
-              을 쌓으며, “무엇을 만들까”보다{" "}
+              을 쌓으며, “무엇을 만들 것인가”보다{" "}
               <span className="font-semibold text-ink">
-                “어떤 구조가 매출과 운영을 지탱하는가”
+                “어떤 구조가 서비스와 운영을 더 효율적으로 만드는가”
               </span>
-              에 더 많은 시간을 씁니다. 현재{" "}
+              에 집중해왔습니다. 복잡한 문제를 빠르게 구조화하고,{" "}
               <span className="font-semibold text-ink">
-                Addeep Product Planning Center
+                실행 가능한 단위로 정리
               </span>
-              에서{" "}
-              <span className="font-semibold text-ink">Project Leader</span>로,
-              PiMS Partners{" "}
-              <span className="font-semibold text-ink">커머스 Admin</span>의
-              상품·운영·거래/정산/검수 구조를 설계합니다.
+              해 프로젝트를 안정적으로 리딩하는 데 강점이 있습니다.
             </p>
+
             <p>
-              AI는 속도를 위한 도구가 아니라{" "}
+              특히 AI를 단순한 보조 툴이 아니라,{" "}
               <span className="font-semibold text-ink">
-                합의와 산출물의 표준을 바꾸는 레버리지
+                업무 방식 자체를 개선하는 실행 도구
               </span>
-              로 씁니다. Cursor·GPT로 프로토타입과 스토리보드를 앞세우되, 정책과
-              예외는 사람이 책임지는 선에서 AX를 설계합니다.
+              로 활용합니다. Cursor·V0·Claude·GPT 등을 활용해
+              와이어프레임·프로토타입·스토리보드·정책 설계까지의 과정을
+              빠르게 구조화하고,{" "}
+              <span className="font-semibold text-ink">
+                기존에 수주 단위로 소요되던 기획 업무를 단기간 내 실행 가능한 수준
+              </span>
+              으로 구체화해왔습니다.
             </p>
+
             <p>
+              또한 빠른 생산 속도에만 집중하지 않고,{" "}
               <span className="font-semibold text-ink">
-                Bodwell High School(캐나다)
+                예외 케이스·운영 정책·사용자 흐름
               </span>
-              과{" "}
+              까지 함께 고려하여 실제 서비스 환경에서{" "}
               <span className="font-semibold text-ink">
-                동국대 영어통번역학과
+                안정적으로 운영 가능한 구조
               </span>
-              를 거쳐 영어 비즈니스 커뮤니케이션에 익숙합니다. 글로벌 스택·문서·
-              미팅 환경에서도{" "}
+              를 설계합니다.
+            </p>
+
+            <p>
+              캐나다 고등학교인 Bodwell High School과{" "}
+              동국대학교 영어통번역학과를 거쳐 영어 비즈니스 커뮤니케이션에
+              능숙하며, 협업 환경에서도 다양한 직군과의{" "}
               <span className="font-semibold text-ink">
-                실행력과 설득력
+                원활한 커뮤니케이션
               </span>
-              으로 바로 맞춥니다.
+              을 통해 프로젝트를{" "}
+              <span className="font-semibold text-ink">
+                안정적으로 조율하고 운영
+              </span>
+              할 수 있습니다.
             </p>
           </div>
 
@@ -97,8 +113,10 @@ export function About() {
                 ))}
               </dl>
               <p className="mt-6 rounded-2xl border border-accent/15 bg-accent-soft/60 px-4 py-3 text-center text-xs font-medium leading-relaxed text-ink-secondary">
-                대기업·스케일 팀에서도 바로 실무 투입 가능한{" "}
-                <span className="font-semibold text-ink">구조·지표·협업</span>{" "}
+                어떤 팀에서도 바로 실무 투입 가능한{" "}
+                <span className="font-semibold text-ink">
+                  구조·AI·협업
+                </span>{" "}
                 기준으로 일합니다.
               </p>
             </div>
