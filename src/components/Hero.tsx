@@ -1,4 +1,10 @@
+"use client";
+
+import { useState } from "react";
+
 const EMAIL = "19950426kim@gmail.com";
+const PHONE_DISPLAY = "010-5508-9646";
+const PHONE_TEL = "01055089646";
 
 const highlights = [
   "1인 기획",
@@ -17,6 +23,8 @@ const domains = [
 ];
 
 export function Hero() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <section
       id="hero"
@@ -70,12 +78,13 @@ export function Hero() {
               View Case Studies
             </a>
 
-            <a
-              href={`mailto:${EMAIL}`}
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(true)}
               className="inline-flex h-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/15"
             >
               Contact
-            </a>
+            </button>
           </div>
         </div>
 
@@ -176,6 +185,68 @@ export function Hero() {
           </div>
         </div>
       </div>
+
+      {isContactOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-[30px] border border-white/10 bg-[#1E2A4D] p-7 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-indigo-300">
+                  Contact
+                </p>
+
+                <h3 className="mt-2 text-2xl font-bold text-white">
+                  연락처
+                </h3>
+              </div>
+
+              <button
+              type="button"
+              onClick={() => setIsContactOpen(true)}
+              className="inline-flex h-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/15"
+            >
+              Contact
+            </button>
+            </div>
+
+            <div className="mt-7 space-y-4">
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
+                  Email
+                </p>
+
+                <a
+                  href={`mailto:${EMAIL}`}
+                  className="mt-2 block text-base font-semibold text-white transition hover:text-indigo-300"
+                >
+                  {EMAIL}
+                </a>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-400">
+                  Phone
+                </p>
+
+                <a
+                  href={`tel:${PHONE_TEL}`}
+                  className="mt-2 block text-base font-semibold text-white transition hover:text-indigo-300"
+                >
+                  {PHONE_DISPLAY}
+                </a>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(false)}
+              className="mt-7 inline-flex w-full items-center justify-center rounded-2xl bg-white px-5 py-3 text-sm font-bold text-slate-950 transition hover:bg-slate-100"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
