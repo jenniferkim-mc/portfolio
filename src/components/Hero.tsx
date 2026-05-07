@@ -44,7 +44,7 @@ export function Hero() {
             김유정 · Jennifer Kim
           </p>
 
-          <h1 className="mt-6 max-w-[720px] text-4xl font-extrabold leading-[1.04] tracking-tight text-white md:text-[74px]">
+          <h1 className="mt-6 max-w-[620px] text-[56px] font-extrabold leading-[0.96] tracking-[-0.04em] text-white md:text-[68px] lg:text-[72px]">
             복잡한 서비스를
             <br />
             실행 가능한 구조로
@@ -52,7 +52,7 @@ export function Hero() {
             만드는 PM
           </h1>
 
-          <p className="mt-7 max-w-2xl text-[17px] leading-[1.85] text-slate-300">
+          <p className="mt-7 max-w-[620px] text-[16px] leading-[1.85] text-slate-300 md:text-[17px]">
             AI 도구로 빠르게 구체화하고, PM의 기준으로 정책·흐름·예외
             케이스까지 정리합니다. K-pop 투표 플랫폼, AI 시니어 컨시어지,
             개인 부동산 거래 플랫폼, 커머스 어드민까지 다양한 도메인의
@@ -73,7 +73,7 @@ export function Hero() {
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <a
               href="#cases"
-              className="inline-flex h-12 items-center justify-center rounded-2xl bg-white px-8 text-sm font-bold text-slate-950 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-slate-100"
+              className="inline-flex h-11 items-center justify-center rounded-2xl bg-white px-8 text-sm font-bold text-slate-950 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-slate-100"
             >
               View Case Studies
             </a>
@@ -81,7 +81,7 @@ export function Hero() {
             <button
               type="button"
               onClick={() => setIsContactOpen(true)}
-              className="inline-flex h-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/15"
+              className="inline-flex h-11 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/15"
             >
               Contact
             </button>
@@ -187,7 +187,7 @@ export function Hero() {
       </div>
 
       {isContactOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-6 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 px-6 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-[30px] border border-white/10 bg-[#1E2A4D] p-7 shadow-[0_20px_80px_rgba(0,0,0,0.45)]">
             <div className="flex items-start justify-between gap-6">
               <div>
@@ -195,18 +195,16 @@ export function Hero() {
                   Contact
                 </p>
 
-                <h3 className="mt-2 text-2xl font-bold text-white">
-                  연락처
-                </h3>
+                <h3 className="mt-2 text-2xl font-bold text-white">연락처</h3>
               </div>
 
               <button
-              type="button"
-              onClick={() => setIsContactOpen(true)}
-              className="inline-flex h-12 items-center justify-center rounded-2xl border border-white/15 bg-white/10 px-8 text-sm font-bold text-white backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/15"
-            >
-              Contact
-            </button>
+                type="button"
+                onClick={() => setIsContactOpen(false)}
+                className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm text-slate-300 transition hover:bg-white/10"
+              >
+                ✕
+              </button>
             </div>
 
             <div className="mt-7 space-y-4">
