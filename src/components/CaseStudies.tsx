@@ -26,19 +26,19 @@ function SummaryResult({ study }: { study: CaseStudy }) {
   const kpis = study.highlightResults
     ? [
         {
-          label: "Wireframe",
-          value: "4일",
-          detail: "Cursor 기반 화면 구현",
-        },
-        {
-          label: "Storyboard",
-          value: "3일",
-          detail: "GPT 초안 + PM 검수",
-        },
-        {
           label: "Lead Time",
-          value: "약 80%+",
-          detail: "기획 리드타임 단축",
+          value: "8주 → 1주",
+          detail: "기획→프론트 약 88% 단축",
+        },
+        {
+          label: "Wireframe",
+          value: "3주 → 3일",
+          detail: "VS Code·Claude 화면 구현",
+        },
+        {
+          label: "Meeting",
+          value: "90분 → 30분",
+          detail: "회의 시간 약 66% 단축",
         },
       ]
     : getTopResults(study);
@@ -122,113 +122,153 @@ function InsightCard({
 function CaseStudyCard({ study, idx }: { study: CaseStudy; idx: number }) {
   const [open, setOpen] = useState(false);
   const image = study.image;
+  const wideImage = study.wideImage;
+
+  const headerText = (
+    <>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white">
+          Case {String(idx + 1).padStart(2, "0")}
+        </span>
+
+        {study.highlightResults ? (
+          <span className="rounded-full bg-indigo-600 px-3 py-1.5 text-[11px] font-bold text-white">
+            AX Impact
+          </span>
+        ) : null}
+
+        {study.tags.slice(0, 4).map((t) => (
+          <span
+            key={t}
+            className="rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-[11px] font-semibold text-indigo-600"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
+
+      <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-slate-950 md:text-3xl">
+        {study.title}
+      </h3>
+
+      <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
+        <RichText segments={study.tagline} />
+      </p>
+    </>
+  );
+
+  const metaCard = study.meta ? (
+    <dl
+      className={`grid gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-5 text-xs text-slate-500 md:text-sm ${
+        wideImage ? "grid-cols-2 md:grid-cols-4" : "grid-cols-2"
+      }`}
+    >
+      <div>
+        <dt className="font-bold text-slate-400">기간</dt>
+        <dd className="mt-1.5 font-semibold text-slate-800">
+          {study.meta.period}
+        </dd>
+      </div>
+
+      <div>
+        <dt className="font-bold text-slate-400">기여</dt>
+        <dd className="mt-1.5 font-semibold text-slate-800">
+          {study.meta.contribution}
+        </dd>
+      </div>
+
+      <div>
+        <dt className="font-bold text-slate-400">팀</dt>
+        <dd className="mt-1.5 font-semibold text-slate-800">
+          {study.meta.team}
+        </dd>
+      </div>
+
+      <div>
+        <dt className="font-bold text-slate-400">산출</dt>
+        <dd className="mt-1.5 font-semibold text-slate-800">
+          {study.meta.deliverable}
+        </dd>
+      </div>
+    </dl>
+  ) : null;
+
+  const headerContent = (
+    <div className="px-6 py-8 md:px-8 md:py-10">
+      {headerText}
+      {metaCard ? <div className="mt-7">{metaCard}</div> : null}
+    </div>
+  );
+
+  const sideContent = image ? (
+    <div className="flex flex-col gap-4">
+      <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+        <img
+          src={image}
+          alt={`${study.title} preview`}
+          className="h-full w-full object-cover"
+        />
+      </div>
+      {study.extraImages?.map((src, i) => (
+        <div
+          key={src}
+          className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm"
+        >
+          <img
+            src={src}
+            alt={`${study.title} preview ${i + 2}`}
+            className="h-full w-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  ) : (
+    <div className="flex h-full min-h-[280px] flex-col justify-center">
+      <p className="text-xs font-bold uppercase tracking-[0.24em] text-indigo-600">
+        PM Focus
+      </p>
+
+      <h4 className="mt-5 text-2xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-3xl">
+        {study.pmFocus?.title ?? "프로젝트 핵심 기획 포인트"}
+      </h4>
+
+      <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-600 md:text-[15px]">
+        {study.pmFocus?.description ??
+          "문제 정의부터 구조 설계, 산출물 완성까지 PM 관점에서 핵심 흐름을 정리했습니다."}
+      </p>
+
+      <div className="mt-8 rounded-3xl border border-indigo-100 bg-white/80 px-5 py-5 shadow-sm">
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+          Key Question
+        </p>
+        <p className="mt-2 text-sm font-semibold leading-relaxed text-slate-900 md:text-[15px]">
+          {study.pmFocus?.question ??
+            "이 프로젝트에서 가장 먼저 풀어야 할 구조적 문제는 무엇인가?"}
+        </p>
+      </div>
+    </div>
+  );
 
   return (
     <article
       id={`case-${study.id}`}
       className="reveal scroll-mt-28 overflow-hidden rounded-[36px] border border-slate-200 bg-white shadow-[0_24px_80px_rgba(15,23,42,0.05)]"
     >
-      <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="px-6 py-8 md:px-8 md:py-10">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="rounded-full bg-slate-950 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-white">
-              Case {String(idx + 1).padStart(2, "0")}
-            </span>
-
-            {study.highlightResults ? (
-              <span className="rounded-full bg-indigo-600 px-3 py-1.5 text-[11px] font-bold text-white">
-                AX Impact
-              </span>
-            ) : null}
-
-            {study.tags.slice(0, 4).map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-indigo-100 bg-indigo-50 px-3 py-1.5 text-[11px] font-semibold text-indigo-600"
-              >
-                {t}
-              </span>
-            ))}
+      {wideImage && image ? (
+        <>
+          {headerContent}
+          <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 via-white to-indigo-50/50 p-6 md:p-8">
+            {sideContent}
           </div>
-
-          <h3 className="mt-6 text-2xl font-extrabold tracking-tight text-slate-950 md:text-3xl">
-            {study.title}
-          </h3>
-
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-600 md:text-lg">
-            <RichText segments={study.tagline} />
-          </p>
-
-          {study.meta ? (
-            <dl className="mt-7 grid grid-cols-2 gap-4 rounded-3xl border border-slate-200 bg-slate-50 p-5 text-xs text-slate-500 md:text-sm">
-              <div>
-                <dt className="font-bold text-slate-400">기간</dt>
-                <dd className="mt-1.5 font-semibold text-slate-800">
-                  {study.meta.period}
-                </dd>
-              </div>
-
-              <div>
-                <dt className="font-bold text-slate-400">기여</dt>
-                <dd className="mt-1.5 font-semibold text-slate-800">
-                  {study.meta.contribution}
-                </dd>
-              </div>
-
-              <div>
-                <dt className="font-bold text-slate-400">팀</dt>
-                <dd className="mt-1.5 font-semibold text-slate-800">
-                  {study.meta.team}
-                </dd>
-              </div>
-
-              <div>
-                <dt className="font-bold text-slate-400">산출</dt>
-                <dd className="mt-1.5 font-semibold text-slate-800">
-                  {study.meta.deliverable}
-                </dd>
-              </div>
-            </dl>
-          ) : null}
+        </>
+      ) : (
+        <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
+          {headerContent}
+          <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 via-white to-indigo-50/50 p-6 md:p-8 lg:border-l lg:border-t-0">
+            {sideContent}
+          </div>
         </div>
-
-        <div className="border-t border-slate-200 bg-gradient-to-br from-slate-50 via-white to-indigo-50/50 p-6 md:p-8 lg:border-l lg:border-t-0">
-          {image ? (
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
-              <img
-                src={image}
-                alt={`${study.title} preview`}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ) : (
-            <div className="flex h-full min-h-[280px] flex-col justify-center">
-              <p className="text-xs font-bold uppercase tracking-[0.24em] text-indigo-600">
-                PM Focus
-              </p>
-
-              <h4 className="mt-5 text-2xl font-extrabold leading-tight tracking-tight text-slate-950 md:text-3xl">
-                {study.pmFocus?.title ?? "프로젝트 핵심 기획 포인트"}
-              </h4>
-
-              <p className="mt-5 max-w-md text-sm leading-relaxed text-slate-600 md:text-[15px]">
-                {study.pmFocus?.description ??
-                  "문제 정의부터 구조 설계, 산출물 완성까지 PM 관점에서 핵심 흐름을 정리했습니다."}
-              </p>
-
-              <div className="mt-8 rounded-3xl border border-indigo-100 bg-white/80 px-5 py-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-                  Key Question
-                </p>
-                <p className="mt-2 text-sm font-semibold leading-relaxed text-slate-900 md:text-[15px]">
-                  {study.pmFocus?.question ??
-                    "이 프로젝트에서 가장 먼저 풀어야 할 구조적 문제는 무엇인가?"}
-                </p>
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
+      )}
 
       <div className="border-t border-slate-200 bg-slate-50 px-6 py-8 md:px-8">
         <SummaryResult study={study} />

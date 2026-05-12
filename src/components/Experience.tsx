@@ -66,8 +66,8 @@ export function Experience({ items }: { items: ExperienceItem[] }) {
 
           <p className="mt-4 text-lg leading-relaxed text-ink-secondary">
             커머스·AI·중개플랫폼·마케팅 현장에서 쌓은{" "}
-            <span className="font-medium text-ink">3년 이상</span>의 경험을
-            문제 정의, 구조 설계, 정책 수립, 협업·핸드오프 역량 중심으로
+            <span className="font-medium text-ink">약 3년</span>의 경험을 문제
+            정의, 구조 설계, 정책 수립, 협업·핸드오프 역량 중심으로
             정리했습니다.
           </p>
         </div>
