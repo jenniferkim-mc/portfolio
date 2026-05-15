@@ -428,6 +428,7 @@ export const caseStudies: CaseStudy[] = [
       "Claude",
     ],
     image: "/cases/PiMS Partners 기능명세서.png",
+    extraImages: ["/cases/PiMS Partners Figma 화면설계서.png"],
     meta: {
       period: "2026.04.06 — 2026.04.28",
       team: "PiMS / PiMS Partners",
